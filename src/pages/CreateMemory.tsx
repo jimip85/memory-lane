@@ -9,13 +9,19 @@ export const CreateMemory = () => {
   const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate()
 
-  const handleSubmit = async (memory: Omit<Memory, 'id'>) => {
+  const handleSubmit = async (
+    memory: Omit<Memory, 'id' | 'image_url'>,
+    imageFile: File | null
+  ) => {
     try {
       setLoading(true)
-      await createMemory(memory)
+
+      // Call the service function directly
+      await createMemory(memory, imageFile)
+
       navigate('/')
-    } catch (err) {
-      setError('Failed to create memory')
+    } catch (err: any) {
+      setError(err.message || 'Failed to create memory. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -23,7 +29,9 @@ export const CreateMemory = () => {
 
   return (
     <div>
-      <h1 className='text-2xl font-bold text-center py-6'>Create New Memory</h1>
+      <h1 className='text-2xl font-bold text-white text-center py-6'>
+        Create New Memory
+      </h1>
       {error && <p className='text-red-500'>{error}</p>}
       <MemoryForm onSubmit={handleSubmit} loading={loading} />
     </div>

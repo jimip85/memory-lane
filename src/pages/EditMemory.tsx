@@ -6,6 +6,7 @@ import { Memory } from '../types/memory'
 
 const EditMemory = () => {
   const [memory, setMemory] = useState<Memory | null>(null)
+  const [fetching, setFetching] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate()
@@ -15,45 +16,50 @@ const EditMemory = () => {
     const fetchMemory = async () => {
       if (id) {
         try {
-          setLoading(true)
+          setFetching(true)
           const memoryData = await getMemory(id)
           setMemory(memoryData)
         } catch (err) {
           setError('Failed to fetch memory')
         } finally {
-          setLoading(false)
+          setFetching(false)
         }
       }
     }
     fetchMemory()
   }, [id])
 
-  const handleSubmit = async (updatedMemory: Omit<Memory, 'id'>) => {
-    if (id && memory) {
+  const handleSubmit = async (
+    updatedMemory: Omit<Memory, 'id' | 'image_url'>,
+    imageFile: File | null
+  ) => {
+    setError(null) // Reset error before submission
+    if (id) {
       try {
         setLoading(true)
-        // Add the 'id' back to the updated memory before sending it to updateMemory
-        await updateMemory({ ...updatedMemory, id })
-        navigate('/') // Redirect after update
-      } catch (err) {
-        setError('Failed to update memory')
+        await updateMemory({ ...updatedMemory, id }, imageFile)
+        navigate('/')
+      } catch (err: any) {
+        setError(err.message || 'Failed to update memory. Please try again.')
       } finally {
         setLoading(false)
       }
     }
   }
 
-  if (loading) return <p>Loading memory...</p>
+  if (fetching) return <p>Loading memory...</p>
 
   return (
     <div>
-      <h1 className='text-2xl font-bold text-center py-6'>Edit Memory</h1>
+      <h1 className='text-2xl text-white font-bold text-center py-6'>
+        Edit Memory
+      </h1>
       {error && <p className='text-red-500'>{error}</p>}
       {memory && (
         <MemoryForm
           onSubmit={handleSubmit}
           loading={loading}
-          initialValues={memory} // memory contains the id here
+          initialValues={memory}
         />
       )}
     </div>
