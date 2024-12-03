@@ -1,28 +1,47 @@
-# Planned coding challenge: Memory lane
+# Memory Lane
 
-**Please avoid initiating pull requests on this repository or forking this repository. To submit your solution, either set up a repository on your own account or forward a zip file to the appropriate contact within our talent team.**
+Memory Lane is a web application designed to help users relive and manage their cherished moments. It allows users to create, view, edit, and delete memories, with features to sort and share them effortlessly. The application is built with React and leverages modern design principles and accessibility standards.
 
-### Problem definition
+## Features
 
-After a series of discovery calls we found out a problem that our users are facing. They are having a hard time sharing their memories with friends and family. They are using a combination of social media, messaging apps, and email to share their memories. They are looking for a solution that allows them to store and share their memories in a single place.
+- **Memory Management**: Create, view, edit, and delete memories.
+- **Sorting**: Sort memories by date in ascending or descending order.
+- **Universal Link Navigation**: Quickly navigate to a universal link service.
+- **Responsive Design**: Optimized for all devices.
+- **Accessibility**: Proper ARIA labels and focus indicators.
 
-As a first iteration for this solution, we want to build a web application that allows users to create a memory lane and share it with friends and family. A memory lane is a collection of events that happened in a chronological order. Each event consists of a title, a description, a timestamp, and at least one image.
+## Application Structure
 
-## Deliverables
+### Key Components
+- **`Home`**: Fetches and displays memories, with controls for sorting, editing, and deleting.
+- **SortDropdown**: Dropdown for sorting memories.
+- **MemoryList**: Renders the list of memories.
+- **Button**: Reusable button for various actions.
 
-- Clone this repository and create a new branch with your name. Open a pull request on your own instance of the repository.
-- An updated README providing a high level explanation of your implementation.
-- **Screenshots or a short video/gif** showing your UI implementation.
-- Update the API to accommodate for your technical design. Run the API by using `npm run serve:api`.
-- The provided mockup is only for reference and inspiration. Feel free to improve it!
+### Service Layer
+- **`getMemories`**: Fetches memories from the backend.
+- **`deleteMemory`**: Deletes a memory by its ID.
 
-### FAQ
+## Usage
 
-- **Can I add a framework like Next?** If you have the time, go for it, we want to see you use your favorite tools.
-- **Is user authentication required?** No, it is not required.
-- **Can I use a component library?** Yes, you can use a component library.
-- **What will you be looking for?** Good user experience, reusable code, and a well thought out technical design.
+### Running Locally
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the server:
+   ```bash
+   npm run serve:api
+   ```
+3. Start the development server:
+   ```bash
+   npm start
+   ```
+4. Open `http://localhost:5173` in your browser.
 
-### Inspiration mockup
+### Interacting with the App
+- **New Memory**: Create a memory by clicking "New Memory" and filling out details.
+- **Sort Memories**: Use the dropdown to sort memories by date.
+- **Share Memories**: Click "Universal Link" to share your memories.
 
-![Memory lane mockup](./memory_lane.png)
+
